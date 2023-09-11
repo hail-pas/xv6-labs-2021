@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -84,7 +85,7 @@ sys_kill(void)
 }
 
 // return how many clock tick interrupts have occurred
-// since start.
+// since starx3t.
 uint64
 sys_uptime(void)
 {
@@ -94,4 +95,23 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+uint64
+sys_sysinfo(void) {
+
+  uint64 addr;
+
+  if (argaddr(0, &addr) < 0) return -1;
+
+  struct sysinfo sys_info = {
+    .freemem = kfreemem(),
+    .nproc = procnum()
+  };
+
+  if (copyout(myproc()->pagetable, addr, (char *)&sys_info, sizeof(sys_info)) < 0){
+    return -1;
+  }
+
+  return 0;
 }
