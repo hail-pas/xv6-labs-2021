@@ -46,7 +46,7 @@ sys_sbrk(void)
 
   if(argint(0, &n) < 0)
     return -1;
-  
+
   addr = myproc()->sz;
   if(growproc(n) < 0)
     return -1;
@@ -76,14 +76,49 @@ sys_sleep(void)
 }
 
 
-#ifdef LAB_PGTBL
+// #ifdef LAB_PGTBL
 int
 sys_pgaccess(void)
 {
+  uint64 startaddr;
+  int npage;
+  uint64 useraddr;
+  uint64 bitmask = 0;
+  if (argaddr(0, &startaddr) < 0)
+  {
+    return -1;
+  }
+
+  if (argint(1, &npage) < 0)
+  {
+    return -1;
+  }
+
+  if (argaddr(2, &useraddr) < 0)
+  {
+    return -1;
+  }
+
+  uint64 complement = ~PTE_A;
+
+  struct proc * curr_p = myproc();
+
+  for (int i = 0; i < npage; i++)
+  {
+    pte_t *pte = walk(curr_p->pagetable, startaddr + i * PGSIZE, 0);
+    if (*pte & PTE_A)
+    {
+      bitmask |= (1L << i);
+    }
+    *pte &= complement; // 重置 PTE_A
+  }
+
+  copyout(curr_p->pagetable, useraddr, (char *)&bitmask, sizeof(bitmask));
+
   // lab pgtbl: your code here.
   return 0;
 }
-#endif
+// #endif
 
 uint64
 sys_kill(void)

@@ -16,7 +16,7 @@ main()
     printf("\n");
     printf("xv6 kernel is booting\n");
     printf("\n");
-    kinit();         // physical page allocator
+    kinit();         // physical page allocator 将可用的物理内存分页关联到 kmem 链表
     kvminit();       // create kernel page table
     kvminithart();   // turn on paging
     procinit();      // process table
@@ -28,7 +28,7 @@ main()
     iinit();         // inode table
     fileinit();      // file table
     virtio_disk_init(); // emulated hard disk
-    userinit();      // first user process
+    userinit();      // first user process, 其他的user process通过exec创建
     __sync_synchronize();
     started = 1;
   } else {
@@ -41,5 +41,5 @@ main()
     plicinithart();   // ask PLIC for device interrupts
   }
 
-  scheduler();        
+  scheduler();
 }
