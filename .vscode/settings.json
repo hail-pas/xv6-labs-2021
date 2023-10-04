@@ -1,0 +1,30 @@
+{
+    "C_Cpp.default.compilerPath": "/usr/bin/riscv64-linux-gnu-gcc",
+    "files.associations": {
+        "__bit_reference": "c",
+        "__config": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "array": "c",
+        "deque": "c",
+        "functional": "c",
+        "initializer_list": "c",
+        "ios": "c",
+        "iterator": "c",
+        "locale": "c",
+        "queue": "c",
+        "sstream": "c",
+        "string": "c",
+        "string_view": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "proc.h": "c",
+        "spinlock.h": "c",
+        "memlayout.h": "c",
+        "riscv.h": "c",
+        "defs.h": "c",
+        "date.h": "c",
+        "param.h": "c",
+        "user.h": "c"
+    }
+}
